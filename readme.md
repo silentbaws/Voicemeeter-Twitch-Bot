@@ -72,13 +72,22 @@ This is used to modify the selected property by the given amount and it's possib
 * #### `property`
 This is what you'd like to modify on the selected input and will be described below
 * `"Mute"` - This determines whether or not the given input should be muted and can have the possible values `0` for unmuted or `1` for muted
+
 * `"Pan_x"` - This corresponds to the x-axis of the "Position" intellipan pannel and can range from `-0.5` all the way left and `0.5` all the way right
+
 * `"Pan_y"` - This corresponds to the y-axis of the "Position" intellipan pannel and can range from `0` all the way down and `1` all the way up
+
 * `"Color_x"` - This corresponds to the x-axis of the "Voice" intellipan pannel and can range from `-0.5` all the way left and `0.5` all the way right
+
 * `"Color_y"` - This corresponds to the y-axis of the "Voice" intellipan pannel and can range from `0` all the way down and `1` all the way up
+
 * `"fx_x"` - This corresponds to the x-axis of the "Modulation" intellipan pannel and can range from `-0.5` all the way left and `0.5` all the way right
+
 * `"fx_y"` - This corresponds to the y-axis of the "Modulation" intellipan pannel and can range from `0` all the way down and `1` all the way up
+
 * `"Gain"` - This is the gain for the selected input and can range from `-60` to `12`
+
+
 
 ## Considering future features
 
