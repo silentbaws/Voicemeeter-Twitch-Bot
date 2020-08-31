@@ -3,10 +3,11 @@ const RefreshableAuthProvider = require('twitch-auth').RefreshableAuthProvider;
 const StaticAuthProvider = require('twitch').StaticAuthProvider;
 const ChatClient = require('twitch-chat-client').ChatClient;
 const PubSubClient = require('twitch-pubsub-client').PubSubClient;
-const fs = require('fs').promises;
-const VoiceMeeter = require('voicemeeter-connector');
 const VoiceMeeterEvent = require('./VoiceMeeterEvent').VoiceMeeterEvent;
 const VoiceMeeterModification = require('./VoiceMeeterEvent').VoiceMeeterModification;
+const fs = require('fs').promises;
+const VoiceMeeter = require('voicemeeter-connector');
+const { RunSetup } = require('./setup');
 
 vm = null
 voiceMeeterEventList = []
@@ -27,9 +28,32 @@ const voicemeeterEventListener = function() {
     }
 }
 
+const clientId = process.env.Twitch_Client_ID;
+const clientSecret = process.env.Twitch_Secret;
+
 async function main() {
-    const clientId = process.env.Twitch_Client_ID;
-    const clientSecret = process.env.Twitch_Secret;
+    VoiceMeeter.default.init().then(voiceM => {
+        // Connect to your Voicemeeter client
+        voiceM.connect();
+        
+        vm = voiceM
+    });
+    
+    if (process.platform === "win32") {
+        var rl = require("readline").createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+    
+        rl.on("SIGINT", function () {
+            process.emit("SIGINT");
+        });
+    }
+      
+    process.on("SIGINT", function () {
+        vm.disconnect();    
+    });
+
     const tokenData = JSON.parse(await fs.readFile('./tokens.json', 'utf-8'));
 
     const auth = new RefreshableAuthProvider(
@@ -75,17 +99,34 @@ async function main() {
     chatClient.onMessage((channel, user, message) => {
         if (user === 'silentbaws' && message === '!quit'){
             vm.disconnect();
+            process.exit();
         }
     });
 
     setInterval(voicemeeterEventListener, 1000);
 }
 
-VoiceMeeter.default.init().then(voiceM => {
-    // Connect to your Voicemeeter client
-    voiceM.connect();
-    
-    vm = voiceM
-});
+let runSetup = false;
+let unknownCommand = false;
+let redirectURI = "";
+let sendCode = "";
+for (var i = 2; i < process.argv.length; i ++) {
+    if (process.argv[i] === '--setup'){
+        runSetup = true;
+    } else if (process.argv[i] === '--redirect') {
+        redirectURI = process.argv[i + 1];
+        i ++;
+    } else if (process.argv[i] === '--code') {
+        sendCode = process.argv[i + 1];
+        i ++;
+    } else {
+        unknownCommand = true;
+        console.log(`Unknown command ${process.argv[i]}, cancelling program execution`);
+    }
+}
 
-main();
+if (!runSetup && !unknownCommand){
+    main();
+} else if (runSetup && redirectURI != "" && sendCode != ""){
+    RunSetup(redirectURI, sendCode, clientId, clientSecret);
+}

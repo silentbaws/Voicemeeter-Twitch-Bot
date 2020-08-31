@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
+    "request": "^2.88.2",
     "twitch": "^4.1.0",
     "twitch-auth": "^4.2.0-pre.7",
     "twitch-chat-client": "^4.2.0-pre.7",
