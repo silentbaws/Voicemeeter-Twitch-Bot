@@ -1,3 +1,6 @@
+## Demo
+If you'd like to see a demo of some possible effects and how the bot works you can do so [here on youtube](https://youtu.be/MrYab6lro3M)
+
 ## Initial Setup Instructions
 
 1. Create an application at https://dev.twitch.tv/console if you don't need to set a Redirect URI just set it to "http://localhost" then take note of your Client ID, and Client Secret
@@ -40,7 +43,9 @@ To create channel point reward integration the first step is to fill in the chan
     parameters
 }
 ```
-filling in the "CHANNEL REWARD NAME" and "NEXT REWARD" and so on with the name of the reward on your twitch channel
+filling in the "CHANNEL REWARD NAME" and "NEXT REWARD" and so on with the name of the reward on your twitch channel as shown in the images below
+![Channel Reward Configuration](https://i.imgur.com/XZq0g5p.png)
+![Config.json Reward Configuration](https://i.imgur.com/Y1pCQcQ.png)
 
 The parameters will be a duration for the effect and a list of modifications to perform which will look like 
 ```json
