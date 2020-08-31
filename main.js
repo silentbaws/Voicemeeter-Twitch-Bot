@@ -9,14 +9,19 @@ const fs = require('fs').promises;
 const VoiceMeeter = require('voicemeeter-connector');
 const { RunSetup } = require('./setup');
 
-vm = null
-voiceMeeterEventList = []
+var vm = null
+var voiceMeeterEventList = []
 
 const LoudBoiFilter = [new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.Gain, 12)]
 const AlienFilter = [new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.fx_x, 1000), new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.fx_y, 1000)]
 const MrRobotoFilter = [new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.fx_y, 1000)]
 const RollerCoasterFilter = [new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.fx_y, 1000), new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.fx_x, -1000)]
 const PleaseShutUp = [new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.Mute, 1)]
+
+//fx_x/Color_x/Pan_x -0.5 - 0.5, default: 0
+//fx_y/Color_y/Pan_y 0 - 1, default: 0
+//Mute 0/1, default: 0
+//Gain -60 - 12, default: 0
 
 const voicemeeterEventListener = function() {
     if (voiceMeeterEventList.length > 0){
@@ -32,6 +37,8 @@ const clientId = process.env.Twitch_Client_ID;
 const clientSecret = process.env.Twitch_Secret;
 
 async function main() {
+    const loadedConfig = JSON.parse(await fs.readFile('./config.json', 'utf-8'));
+
     VoiceMeeter.default.init().then(voiceM => {
         // Connect to your Voicemeeter client
         voiceM.connect();
@@ -78,26 +85,21 @@ async function main() {
     userId = await pubSubClient.registerUserListener(apiClient);
 
     pubSubClient.onRedemption(userId, (message) => {
-        rewardData = message._data.data.redemption.reward;
+        let rewardData = message._data.data.redemption.reward;
 
-        if (rewardData.title === 'Loud Boi') {
-            voiceMeeterEventList.push(new VoiceMeeterEvent(LoudBoiFilter, 30000))
-        } else if (rewardData.title === 'Mr Roboto Voice'){
-            voiceMeeterEventList.push(new VoiceMeeterEvent(MrRobotoFilter, 30000))
-        } else if (rewardData.title === 'Speak Lizardman Language'){
-            voiceMeeterEventList.push(new VoiceMeeterEvent(AlienFilter, 30000))
-        } else if (rewardData.title === 'Rollercoaster fx'){
-            voiceMeeterEventList.push(new VoiceMeeterEvent(RollerCoasterFilter, 30000))
-        } else if (rewardData.title === 'Silent do be annoying'){
-            voiceMeeterEventList.push(new VoiceMeeterEvent(PleaseShutUp, 30000))
+        let redeemedReward = loadedConfig.channelRewards[rewardData.title]
+
+        if (redeemedReward != undefined) {
+            console.log(`${message._data.data.redemption.user.display_name} redeemed the voice modification reward ${rewardData.title}`);
+            voiceMeeterEventList.push(new VoiceMeeterEvent(redeemedReward.modifications, redeemedReward.duration));
         }
     });
 
-    const chatClient = new ChatClient(auth, { channels: ['silentbaws'] });
+    const chatClient = new ChatClient(auth, { channels: [loadedConfig.streamerName] });
     await chatClient.connect();
 
     chatClient.onMessage((channel, user, message) => {
-        if (user === 'silentbaws' && message === '!quit'){
+        if (user === loadedConfig.streamerName && message === '!quit'){
             vm.disconnect();
             process.exit();
         }

@@ -1,0 +1,72 @@
+{
+    "streamerName": "silentbaws",
+    "channelRewards": {
+        "Loud Boi": {
+            "duration": 30000,
+            "modifications": [
+                {
+                    "bus": false,
+                    "index": 1,
+                    "property": "Gain",
+                    "value": 12
+                }
+            ]
+        },
+        "Mr Roboto Voice": {
+            "duration": 30000,
+            "modifications": [
+                {
+                    "bus": false,
+                    "index": 1,
+                    "property": "fx_y",
+                    "value": 1
+                }
+            ]
+        },
+        "Speak Lizardman Language": {
+            "duration": 30000,
+            "modifications": [
+                {
+                    "bus": false,
+                    "index": 1,
+                    "property": "fx_y",
+                    "value": 1
+                },
+                {
+                    "bus": false,
+                    "index": 1,
+                    "property": "fx_x",
+                    "value": 0.5
+                }
+            ]
+        },
+        "Rollercoaster fx": {
+            "duration": 30000,
+            "modifications": [
+                {
+                    "bus": false,
+                    "index": 1,
+                    "property": "fx_y",
+                    "value": 1
+                },
+                {
+                    "bus": false,
+                    "index": 1,
+                    "property": "fx_x",
+                    "value": -0.5
+                }
+            ]
+        },
+        "Silent do be annoying": {
+            "duration": 30000,
+            "modifications": [
+                {
+                    "bus": false,
+                    "index": 1,
+                    "property": "Mute",
+                    "value": 1
+                }
+            ]
+        }
+    }
+}

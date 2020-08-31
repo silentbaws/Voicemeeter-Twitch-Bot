@@ -1,25 +1,14 @@
 const VoiceMeeter = require('voicemeeter-connector');
 
-function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-        currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
-}
-
 class VoiceMeeterModification{
     constructor(bus, id, param, value) {
+        this.bus = bus;
         this.index = id;
         this.property = param;
         this.value = value;
-        this.bus = bus;
     }
 }
 
-// -> Activation Timestamp: time of activation after redemption
-// -> modification: What we want to change
-// -> duration: how long does this last
 class VoiceMeeterEvent {
     constructor(appliedModifications, duration){
         this.modifications = appliedModifications;
