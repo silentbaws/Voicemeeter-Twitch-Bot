@@ -99,7 +99,7 @@ async function main() {
     await chatClient.connect();
 
     chatClient.onMessage((channel, user, message) => {
-        if (user === loadedConfig.streamerName && message === '!quit'){
+        if (user == loadedConfig.streamerName && message === '!quit'){
             vm.disconnect();
             process.exit();
         }
