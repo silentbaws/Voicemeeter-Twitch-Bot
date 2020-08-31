@@ -1,4 +1,4 @@
-## Setup Instructions
+## Initial Setup Instructions
 
 1. Create an application at https://dev.twitch.tv/console if you don't need to set a Redirect URI just set it to "http://localhost" then take note of your Client ID, and Client Secret
 
@@ -14,6 +14,8 @@
 
 7. After being taken to a url similar to https://localhost/?code=CODE_YOU_NEED&scope=chat%3Aread+chat%3Aedit+channel%3Aread%3Aredemptions copy the CODE_YOU_NEED
 
-8. Run the voicemeeter integration app with the parameters "--redirect YOUR_REDIRECT_URI --code CODE_YOU_NEED"
+8. Run the voicemeeter integration app with the parameters "--setup --redirect YOUR_REDIRECT_URI --code CODE_YOU_NEED"
 
-9. Run the voicemeeter integration app with no parameters. 
+
+## Creating channel points integration
+
