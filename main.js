@@ -12,12 +12,6 @@ const { RunSetup } = require('./setup');
 var vm = null
 var voiceMeeterEventList = []
 
-const LoudBoiFilter = [new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.Gain, 12)]
-const AlienFilter = [new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.fx_x, 1000), new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.fx_y, 1000)]
-const MrRobotoFilter = [new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.fx_y, 1000)]
-const RollerCoasterFilter = [new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.fx_y, 1000), new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.fx_x, -1000)]
-const PleaseShutUp = [new VoiceMeeterModification(false, 1, VoiceMeeter.StripProperties.Mute, 1)]
-
 //fx_x/Color_x/Pan_x -0.5 - 0.5, default: 0
 //fx_y/Color_y/Pan_y 0 - 1, default: 0
 //Mute 0/1, default: 0
